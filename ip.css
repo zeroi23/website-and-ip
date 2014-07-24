@@ -1,0 +1,52 @@
+#chrome-IP {
+	position: fixed;
+	bottom: 0;
+	background: #F1EDED;
+	padding: 5px;
+	border: 1px solid #919191;
+	border-bottom: 0px;
+	font-size: 12px;
+	color: #333;
+	font-family: 'Arial', Helvetica, sans-serif;
+	cursor: default;
+	z-index: 2147483647;
+	line-height: 1;
+	outline: 0;
+	vertical-align: baseline;
+	margin: 0;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	user-select: none;
+	max-height: 500px;
+	overflow-y: auto;
+}
+
+#chrome-IP table.ipList{
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+}
+
+#chrome-IP .ipList p {
+	-webkit-margin-before: 0px;
+	-webkit-margin-after: 0px;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	text-align: left;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+#chrome-IP .ipList td{
+	padding: 0;
+	border: 1px solid #dbdbdb;
+	text-align: left;
+}
+
+#chrome-IP.chrome_right {
+	right: 1%;
+}
+
+#chrome-IP .close {
+	float: right;
+}
