@@ -3,7 +3,7 @@
    "version": "0.9",  
    "description": "abc",
    "manifest_version": 2,
-   "permissions": ["tabs","http://*/*","https://*/*","webRequest","webRequestBlocking"],
+   "permissions": ["tabs","http://*/*","https://*/*","webRequest","webRequestBlocking","storage"],
    "background": {
       "scripts": [ "background.js" ]
    },
