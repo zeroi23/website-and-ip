@@ -1,10 +1,11 @@
 var domainList = {};
+var ipList = {};
 var key = "show";
 var isShow = true;
 {
     chrome.storage.local.get(key, function (item) {
         isShow = item[key];
-        console.debug(isShow);
+        // console.debug(isShow);
     });
 }
 chrome.runtime.onMessage.addListener(function (detail) {
@@ -13,6 +14,9 @@ chrome.runtime.onMessage.addListener(function (detail) {
             var start = detail.url.indexOf("//");
             var end = detail.url.indexOf("/", start + 2);
             var url = detail.url.substring(start + 2, end);
+            if(url=="ip.taobao.com"){
+                return;
+            }
             if (domainList[url] == undefined) {
                 var domain = {};
                 domain.url = url;
@@ -50,9 +54,33 @@ function getDomainHtml(domain) {
         + domain.url
         + '">'
         + domain.url
-        + '</a></td><td><a target="_blank" title="点击查询IP' + domain.ip + '" href="http://wap.ip138.com/ip_search138.asp?ip='
+        + '</a></td><td><a target="_blank" class="ip" href="http://wap.ip138.com/ip_search138.asp?ip='
         + domain.ip + '">' + domain.ip + '</td><td>' + domain.count
         + '</td></tr>';
+}
+$.ajaxSetup({
+    async: false
+});
+
+var IpUtil =
+{
+    api: "http://ip.taobao.com/service/getIpInfo.php",
+    getIpInfo: function (ip) {
+        var info;
+        $.getJSON(IpUtil.api,{ip: ip},
+            function (data) {
+                // console.debug(data);
+                if(data.code==0) {
+                    info = data.data.country;
+                    info += " "+data.data.area;
+                    info += " "+data.data.region;
+                    info += " "+data.data.city;
+                }
+                // console.debug(info);
+            }
+        );
+        return info;
+    }
 }
 
 $(function () {
@@ -76,4 +104,16 @@ $(function () {
         $("#chrome-IP .ipList").hide();
         chrome.storage.local.set({"show": false});
     });
+
+    $("#chrome-IP").delegate("a.ip", "mouseover", function (e) {
+        // console.debug(e);
+        var ip = e.currentTarget.text;
+        var address = ipList[ip];
+        if (address == null) {
+            address = IpUtil.getIpInfo(ip);
+            // console.debug(address);
+            ipList[ip]=address;
+        }
+        e.currentTarget.title = address;
+    })
 });
